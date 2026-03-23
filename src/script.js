@@ -1,4 +1,4 @@
-function buscarCep() {
+function buscarClientes() {
     const cep = document.getElementById('cep').value.replace(/\D/g, '');
     const resultado = document.getElementById('resultado');
   
