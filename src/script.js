@@ -26,4 +26,38 @@ function buscarClientes() {
         console.error(error);
       });
   }
-  
+
+function mostrarClientes() {
+    const container = document.getElementById('clientes-container');
+    container.innerHTML = '<p>Carregando clientes...</p>';
+    
+    // URL da sua API de clientes
+    const apiUrl = 'http://localhost:3000/clientes';
+    
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(clientes => {
+            if (clientes.length === 0) {
+                container.innerHTML = '<p>Nenhum cliente encontrado.</p>';
+                return;
+            }
+            
+            let html = '<div class="clientes-list">';
+            clientes.forEach(cliente => {
+                html += `
+                    <div class="cliente-card">
+                        <h3>${cliente.nome || 'Nome não informado'}</h3>
+                        <p><strong>Email:</strong> ${cliente.email || 'Não informado'}</p>
+                        <p><strong>Telefone:</strong> ${cliente.telefone || 'Não informado'}</p>
+                        <p><strong>CEP:</strong> ${cliente.cep || 'Não informado'}</p>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        })
+        .catch(error => {
+            console.error('Erro ao buscar clientes:', error);
+            container.innerHTML = '<p style="color:red;">Erro ao carregar clientes. Verifique o console para detalhes.</p>';
+        });
+}
